@@ -1,5 +1,5 @@
 # **Behavioral Cloning** 
----
+
 The goals / steps of this project are the following:
 
 * Use the simulator to collect data of good driving behavior
@@ -103,23 +103,10 @@ Several changes were made to tailor the model for my use:
 	* Cropping layer to focus the model on the important part of the image. The layer crop top 50 and bottom 20 pixel rows.
 	* Rescaling layer with factor 0.5 to effectively cut down the number of pixels to a fourth.
 	* Normalization layer to improve the performance of gradient descent during training.
-* The stride in the first convolutional layer had to be changed from 2 to 1, because of the rescaling of the images.¨
+* The stride in the first convolutional layer had to be changed from 2 to 1, because of the rescaling of the images.
 * ELU activation functions were included in between the convolutional and fully connected layers.
 * The output layer consists of only one node - the steering angle prediction.
 
-
-
-In order to speed up the training, I took the advice from 
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 #### 2. Final Model Architecture
 
@@ -176,3 +163,12 @@ You can see that the loss function keeps on decreasing on both sets, but the sco
 
 * In the start, I had pretty good results on both training and validation sets, but the performance in the simulator was quite bad. I tried adding more samples and training for more epochs, but the behavior in the simulator got even worse! After checking the code I found the root cause - my model used opecv function ```imread``` to read the image files for training and validation, but this function returns images in BGR format. On the other hand, the Udacity simulator returns images in RGB. After fixing this issue, the performace drastically improved.
 * I had to rewrite the ```drive.py```, because the original version was raising GPU memory allocation and CuDNN errors.
+* The desired speed in ```drive.py``` affects the ability of the car to stay on the road. Set to 10 the vehicle drives reliably on the first track, but at higher speeds (20-30) it can get into trouble.
+
+**Future improvements**
+
+* Try more agressive cropping.
+* Try the limit for downscaling.
+* Add more data augmentation - translation, rotation, brightness shift, etc.
+* Would dropout layers improve the performace on the second track?
+* Record more data to make the model drive more confidently on the second test track.
